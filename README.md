@@ -1,3 +1,1 @@
-# waste-API
-
-## About
+# backend-API
