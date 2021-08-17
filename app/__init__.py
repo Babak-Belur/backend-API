@@ -9,5 +9,5 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from app.model import users, detail_user, course_subject, evaluation, factor, study_report, target
+from app.model import users, detailUser, courseSubject, evaluation, factor, studyReport, target
 from app import routes

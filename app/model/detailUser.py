@@ -1,7 +1,7 @@
 from app import db 
 from app.model.users import Users
 
-class Detail_User(db.Model):
+class DetailUser(db.Model):
     id_detail_user = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     age = db.Column(db.BigInteger, nullable=False)
     genre = db.Column(db.Enum('Male', 'Female'), nullable=False)
@@ -12,4 +12,4 @@ class Detail_User(db.Model):
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
 
     def __repr__(self):
-        return '<Detail_User {}>'.format(self.name)
+        return '<DetailUser {}>'.format(self.name)

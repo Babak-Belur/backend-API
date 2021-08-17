@@ -1,5 +1,5 @@
 from app.model.users import Users
-from app.model.detail_user import Detail_User
+from app.model.detailUser import DetailUser
 
 from app import response, app, db
 from flask import request
@@ -40,7 +40,7 @@ def singleObject(data):
 def detail(id):
     try:
         user = Users.query.filter_by(id_user=id).first()
-        detail_user = Detail_User.query.filter(Detail_User.id_user == id)
+        detail_user = DetailUser.query.filter(DetailUser.id_user == id)
 
         if not user:
             return response.badRequest([], 'Tidak ada datanya')

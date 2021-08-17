@@ -1,10 +1,12 @@
 from app import app
-from app.controller import UserController, DetailController
+from app.controller import UserController
 
 @app.route('/')
 def index():
     return 'Hello Flask App'
 
+
+#users
 @app.route('/users', methods=['GET'])
 def users():
     return UserController.index()
@@ -13,6 +15,6 @@ def users():
 def detailUser(id):
     return UserController.detail(id)
 
-@app.route('/detail/', methods=['GET'])
-def detail():
-    return DetailController.indexDetail()
+
+
+#target
