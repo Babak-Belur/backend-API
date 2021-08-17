@@ -6,8 +6,8 @@ class Target(db.Model):
     id_evaluation = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
     id_course = db.Column(db.BigInteger, db.ForeignKey(Course_Subject.id_course))
-    grade = db.Column(db.Integer(30), nullable=False)
-    target_time = db.Column(db.Integer(50), nullable=False)
+    grade = db.Column(db.Integer, nullable=False)
+    target_time = db.Column(db.Integer, nullable=False)
 
     
     def __repr__(self):
