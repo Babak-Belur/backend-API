@@ -1,5 +1,5 @@
 from app import app
-from app.controller import UserController
+from app.controller import UserController, TargetController
 
 @app.route('/')
 def index():
@@ -18,3 +18,10 @@ def detailUser(id):
 
 
 #target
+@app.route('/target', methods=['GET'])
+def target():
+    return TargetController.index()
+
+@app.route('/target/<id>', methods=['GET'])
+def targetUser(id):
+    return TargetController.detailTarget(id)

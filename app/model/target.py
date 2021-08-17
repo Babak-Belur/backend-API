@@ -3,7 +3,7 @@ from app.model.users import Users
 from app.model.courseSubject import CourseSubject
 
 class Target(db.Model):
-    id_evaluation = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    id_target = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
     id_course = db.Column(db.BigInteger, db.ForeignKey(CourseSubject.id_course))
     grade = db.Column(db.Integer, nullable=False)
