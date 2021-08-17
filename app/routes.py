@@ -1,5 +1,5 @@
 from app import app
-from app.controller import UserController, TargetController, CourseController, FactorController
+from app.controller import UserController, TargetController, CourseController, FactorController, StudyController, EvaluationController
 
 @app.route('/')
 def index():
@@ -38,3 +38,27 @@ def course():
 @app.route('/factor', methods=['GET'])
 def factor():
     return FactorController.index()
+
+@app.route('/factor/<id>', methods=['GET'])
+def factorUser(id):
+    return FactorController.detailFactor(id)
+
+
+#factor
+@app.route('/study', methods=['GET'])
+def study():
+    return StudyController.index()
+
+@app.route('/study/<id>', methods=['GET'])
+def studyUser(id):
+    return StudyController.detailStudy(id)
+
+
+#evaluation
+@app.route('/evaluation', methods=['GET'])
+def evaluation():
+    return EvaluationController.index()
+
+@app.route('/evaluation/<id>', methods=['GET'])
+def evaluationUser(id):
+    return EvaluationController.detailEvaluation(id)

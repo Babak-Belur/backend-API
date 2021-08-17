@@ -3,7 +3,7 @@ from app.model.users import Users
 from app.model.courseSubject import CourseSubject
 
 class StudyReport(db.Model):
-    id_evaluation = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    id_study_report = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
     date = db.Column(db.Date, nullable=False)
     study_time = db.Column(db.Integer, nullable=False)
