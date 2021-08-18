@@ -30,3 +30,18 @@ def singleObject(data):
     }
 
     return data
+
+
+#add course
+def save():
+    try:
+        course_name = request.form.get('course_name')
+        description = request.form.get('description')
+
+        courses = CourseSubject(course_name=course_name, description=description)
+        db.session.add(courses)
+        db.session.commit()
+
+        return response.success('', 'Success adding Course Subject')
+    except Exception as e:
+        print(e)

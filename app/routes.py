@@ -1,4 +1,5 @@
 from app import app
+from flask import request
 from app.controller import UserController, TargetController, CourseController, FactorController, StudyController, EvaluationController
 
 @app.route('/')
@@ -7,9 +8,12 @@ def index():
 
 
 #users
-@app.route('/users', methods=['GET'])
+@app.route('/users', methods=['GET','POST'])
 def users():
-    return UserController.index()
+    if request.method == 'GET':
+        return UserController.index()
+    else:
+        return UserController.save()
 
 @app.route('/users/<id>', methods=['GET'])
 def detailUser(id):
@@ -18,9 +22,13 @@ def detailUser(id):
 
 
 #target
-@app.route('/target', methods=['GET'])
+@app.route('/target', methods=['GET','POST'])
 def target():
-    return TargetController.index()
+    if request.method == 'GET':
+        return TargetController.index()
+    else:
+        return TargetController.save()
+    
 
 @app.route('/target/<id>', methods=['GET'])
 def targetUser(id):
@@ -28,26 +36,36 @@ def targetUser(id):
 
 
 #course
-@app.route('/course', methods=['GET'])
+@app.route('/course', methods=['GET','POST'])
 def course():
-    return CourseController.index()
+    if request.method == 'GET':
+        return CourseController.index()
+    else:
+        return CourseController.save()
 
 
 
 #factor
-@app.route('/factor', methods=['GET'])
+@app.route('/factor', methods=['GET','POST'])
 def factor():
-    return FactorController.index()
+    if request.method == 'GET':
+        return FactorController.index()
+    else:
+        return FactorController.save()
 
 @app.route('/factor/<id>', methods=['GET'])
 def factorUser(id):
     return FactorController.detailFactor(id)
 
 
-#factor
-@app.route('/study', methods=['GET'])
+#study
+@app.route('/study', methods=['GET','POST'])
 def study():
-    return StudyController.index()
+    if request.method == 'GET':
+        return StudyController.index()
+    else:
+        return StudyController.save()
+    
 
 @app.route('/study/<id>', methods=['GET'])
 def studyUser(id):
@@ -55,9 +73,13 @@ def studyUser(id):
 
 
 #evaluation
-@app.route('/evaluation', methods=['GET'])
+@app.route('/evaluation', methods=['GET','POST'])
 def evaluation():
-    return EvaluationController.index()
+    if request.method == 'GET':
+        return EvaluationController.index()
+    else:
+        return EvaluationController.save()
+
 
 @app.route('/evaluation/<id>', methods=['GET'])
 def evaluationUser(id):

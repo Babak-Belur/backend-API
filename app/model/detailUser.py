@@ -3,12 +3,12 @@ from app.model.users import Users
 
 class DetailUser(db.Model):
     id_detail_user = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    age = db.Column(db.BigInteger, nullable=False)
-    genre = db.Column(db.Enum('Male', 'Female'), nullable=False)
-    internet = db.Column(db.Enum('Yes', 'No'), nullable=False)
-    fjob = db.Column(db.String(50), nullable=False)
-    mjob = db.Column(db.String(50), nullable=False)
-    pstatus = db.Column(db.Enum('Yes', 'No'), nullable=False)
+    age = db.Column(db.BigInteger, nullable=True)
+    genre = db.Column(db.Enum('Male', 'Female'), nullable=True)
+    internet = db.Column(db.Enum('Yes', 'No'), nullable=True)
+    fjob = db.Column(db.String(50), nullable=True)
+    mjob = db.Column(db.String(50), nullable=True)
+    pstatus = db.Column(db.Enum('Yes', 'No'), nullable=True)
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
 
     def __repr__(self):

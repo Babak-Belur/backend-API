@@ -28,7 +28,7 @@ def singleObject(data):
     data = {
         'id_evaluation': data.id_evaluation,
         'id_user': data.id_user,
-        'study_time': data.study_report,
+        'grade': data.grade,
         'id_course': data.id_course
     }
 
@@ -70,7 +70,7 @@ def singleEvaluation(evaluation):
     data = {
         'id_evaluation': evaluation.id_evaluation,
         'id_user': evaluation.id_user,
-        'study_time': evaluation.study_report,
+        'grade': evaluation.grade,
         'id_course': evaluation.id_course
     }
 
@@ -81,3 +81,20 @@ def formatEvaluation(data):
     for i in data:
         array.append(singleEvaluation(i))
     return array
+
+
+# add evaluation
+def save():
+    try:
+        id_user = request.form.get('id_user')
+        grade = request.form.get('grade')
+        id_course = request.form.get('id_course')
+
+        evaluations = Evaluation(id_user=id_user, grade=grade, id_course=id_course)
+        
+        db.session.add(evaluations)
+        db.session.commit()
+
+        return response.success('', 'Success adding User Evaluation')
+    except Exception as e:
+        print(e)

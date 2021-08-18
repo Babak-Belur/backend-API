@@ -85,3 +85,21 @@ def formatDetail(data):
     for i in data:
         array.append(singleDetail(i))
     return array
+
+
+#add user
+def save():
+    try:
+        username = request.form.get('username')
+        password = request.form.get('role')
+        name = request.form.get('name')
+        role = request.form.get('role')
+
+        users = Users(username=username, password=password, name=name, role=role)
+        
+        db.session.add(users)
+        db.session.commit()
+
+        return response.success('', 'Success adding Users')
+    except Exception as e:
+        print(e)

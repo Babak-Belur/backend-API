@@ -137,3 +137,22 @@ def formatTarget(data):
 #    for i in data:
 #        array.append(singleCourse(i))
 #    return array
+
+
+#add target user
+def save():
+    try:
+        id_user = request.form.get('id_user')
+        id_course = request.form.get('id_course')
+        grade = request.form.get('grade')
+        target_time = request.form.get('target_time')
+        achived = request.form.get('achived')
+
+        target = Target(id_user=id_user, id_course=id_course, grade=grade, target_time=target_time, achived=achived)
+        
+        db.session.add(target)
+        db.session.commit()
+
+        return response.success('', 'Success adding Target Users')
+    except Exception as e:
+        print(e)

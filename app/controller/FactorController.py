@@ -89,3 +89,24 @@ def formatFactor(data):
     for i in data:
         array.append(singleFactor(i))
     return array
+
+
+#add factor
+def save():
+    try:
+        id_user = request.form.get('id_user')
+        study_time = request.form.get('study_time')
+        g1 = request.form.get('g1')
+        freetime = request.form.get('freetime')
+        health = request.form.get('health')
+        extra_paid_course = request.form.get('extra_paid_course')
+        take_higher_education = request.form.get('take_higher_education')
+        extracurricular = request.form.get('extracurricular')
+
+        factors = Factor(id_user=id_user, study_time=study_time, g1=g1, freetime=freetime, health=health, extra_paid_course=extra_paid_course, take_higher_education=take_higher_education, extracurricular=extracurricular)
+        db.session.add(factors)
+        db.session.commit()
+
+        return response.success('', 'Success adding Factor User')
+    except Exception as e:
+        print(e)
