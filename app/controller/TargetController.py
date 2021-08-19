@@ -148,9 +148,9 @@ def save():
         target_time = request.form.get('target_time')
         achived = request.form.get('achived')
 
-        target = Target(id_user=id_user, id_course=id_course, grade=grade, target_time=target_time, achived=achived)
+        targets = Target(id_user=id_user, id_course=id_course, grade=grade, target_time=target_time, achived=achived)
         
-        db.session.add(target)
+        db.session.add(targets)
         db.session.commit()
 
         return response.success('', 'Success adding Target Users')
