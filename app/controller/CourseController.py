@@ -2,6 +2,7 @@ from app.model.courseSubject import CourseSubject
 
 from app import response, app, db
 from flask import request
+from sqlalchemy import text
 
 # Get all course
 def index():
@@ -30,6 +31,21 @@ def singleObject(data):
     }
 
     return data
+
+#try revoke code
+#def index():
+#    try:
+#        data = {}
+#        courses = CourseSubject.query.all()
+#        response['id_course'] = courses.id_course
+#        response['course_name'] = courses.course_name
+#        response['description'] = courses.description
+#        response['status_code'] = 200
+#        datas = jsonify(data)
+#        return response.success(datas, "success")
+#
+#    except Exception as e:
+#        print(e)
 
 
 # Get course by id
