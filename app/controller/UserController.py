@@ -9,6 +9,10 @@ from flask import request
 def index():
     try:
         users = Users.query.all()
+
+        if not course:
+            return response.badRequest([], 'Data User kosong, Id tidak ditemukan')
+
         data = formatarray(users)
         return response.success(data, "success")
     except Exception as e:
@@ -43,7 +47,7 @@ def detail(id):
         detail_user = DetailUser.query.filter(DetailUser.id_user == id)
 
         if not user:
-            return response.badRequest([], 'Tidak ada datanya')
+            return response.badRequest([], 'Tidak ada datanya, Id tidak ditemukan')
 
         dataDetail = formatDetail(detail_user)
 
@@ -91,9 +95,18 @@ def formatDetail(data):
 def save():
     try:
         username = request.form.get('username')
-        password = request.form.get('role')
+        password = request.form.get('password')
         name = request.form.get('name')
         role = request.form.get('role')
+
+        data = [
+            {
+                'username': username,
+                'password': password,
+                'name': name,
+                'role': role
+            }
+        ]
 
         users = Users(username=username, password=password, name=name, role=role)
         #detail = Users.query.filter_by(username=username).first()
@@ -103,7 +116,7 @@ def save():
         db.session.add(detailUser)
         db.session.commit()
 
-        return response.success('', 'Success adding Users')
+        return response.success(data, 'Success adding Users')
     except Exception as e:
         print(e)
 
@@ -137,6 +150,9 @@ def edit(id):
         user = Users.query.filter_by(id_user=id).first()
         datail = DetailUser.query.filter_by(id_detail_user=id).first()
 
+        if not user:
+            return response.badRequest([], 'Data user kosong, Id tidak ditemukan')
+
         user.username = username
         user.password = password
         user.name = name
@@ -163,7 +179,7 @@ def hapus(id):
         detail = DetailUser.query.filter_by(id_user=id).first()
 
         if not course:
-            return response.badRequest([], 'Data Course kosong')
+            return response.badRequest([], 'Data User kosong, Id tidak ditemukan')
 
         db.session.delete(user)
         db.session.delete(detail)

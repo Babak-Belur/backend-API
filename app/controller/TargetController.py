@@ -12,7 +12,12 @@ def index():
         target = db.engine.execute(
             text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course inner join users u on u.id_user = t.id_user")
         )
+
+        if not target:
+            return response.badRequest([], 'Data Target kosong, Id tidak ditemukan')
+
         data = formatarray(target)
+
         return response.success(data, "success")
     except Exception as e:
         print(e)
@@ -121,6 +126,10 @@ def detailTarget(id):
             text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course inner join users u on u.id_user = t.id_user where id_target = :target").params(target=id)
         )
         data = formatarray(target)
+
+        if not target:
+            return response.badRequest([], 'Data Target kosong, Id tidak ditemukan')
+
         return response.success(data, "success")
     except Exception as e:
         print(e)
@@ -160,15 +169,73 @@ def save():
     try:
         id_user = request.form.get('id_user')
         id_course = request.form.get('id_course')
-        grade = request.form.get('grade')
+        g1 = request.form.get('g1', type=bool, default=False)
+        grade_target = request.form.get('grade_target')
         target_time = request.form.get('target_time')
         achived = request.form.get('achived')
 
-        targets = Target(id_user=id_user, id_course=id_course, grade=grade, target_time=target_time, achived=achived)
+        targets = Target(id_user=id_user, id_course=id_course, g1=g1, grade_target=grade_target, target_time=target_time, achived=achived)
         
         db.session.add(targets)
         db.session.commit()
 
         return response.success('', 'Success adding Target Users')
+    except Exception as e:
+        print(e)
+
+
+# edit target
+def edit(id):
+    try:
+        id_user = request.form.get('id_user')
+        id_course = request.form.get('id_course')
+        g1 = request.form.get('g1')
+        grade_target = request.form.get('grade_target')
+        target_time = request.form.get('target_time')
+        achived = request.form.get('achived')
+
+        data = [
+            {
+                'id_user': id_user,
+                'id_course': id_course,
+                'g1': g1,
+                'grade_target': grade_target,
+                'target_time': target_time,
+                'achived': achived,
+            }
+        ]
+
+        target = Target.query.filter_by(id_target=id).first()
+
+        if not target:
+            return response.badRequest([], 'Data Target kosong, Id tidak ditemukan')
+
+        target.id_user = id_user
+        target.id_course = id_course
+        target.g1 = g1
+        target.grade_target = grade_target
+        target.target_time = target_time
+        target.achived = achived
+
+        #db.session.add(course)
+        db.session.commit()
+
+        return response.success(data, 'Sukses update data')
+    except Exception as e:
+        print(e)
+
+#delete target
+def hapus(id):
+    try:
+        target = Target.query.filter_by(id_target=id).first()
+
+        if not target:
+            return response.badRequest([], 'Data Target kosong, Id tidak ditemukan')
+
+        db.session.delete(target)
+        db.session.commit()
+
+        return response.success('', 'Berhasil Menghapus data')
+
     except Exception as e:
         print(e)

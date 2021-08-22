@@ -98,3 +98,60 @@ def save():
         return response.success('', 'Success adding User Evaluation')
     except Exception as e:
         print(e)
+
+
+# edit evaluation
+def edit(id):
+    try:
+        id_user = request.form.get('id_user')
+        date = request.form.get('date')
+        grade = request.form.get('grade')
+        study_time = request.form.get('study_time')
+        freetime = request.form.get('freetime')
+        id_target = request.form.get('id_target')
+
+        data = [
+            {
+                'id_user': id_user,
+                'date': date,
+                'grade': grade,
+                'study_time': study_time,
+                'freetime': freetime,
+                'id_target': id_target,
+            }
+        ]
+
+        evaluation = Evaluation.query.filter_by(id_evaluation=id).first()
+
+        if not Evaluation:
+            return response.badRequest([], 'Data Evaluation kosong, Id tidak ditemukan')
+
+        evaluation.id_user = id_user
+        evaluation.date = date
+        evaluation.grade = grade
+        evaluation.study_time = study_time
+        evaluation.freetime = freetime
+        evaluation.id_target = id_target
+
+        #db.session.add(course)
+        db.session.commit()
+
+        return response.success(data, 'Sukses update data')
+    except Exception as e:
+        print(e)
+
+#delete target
+def hapus(id):
+    try:
+        evaluation = Evaluation.query.filter_by(id_evaluation=id).first()
+
+        if not evaluation:
+            return response.badRequest([], 'Data Evaluation kosong, Id tidak ditemukan')
+
+        db.session.delete(evaluation)
+        db.session.commit()
+
+        return response.success('', 'Berhasil Menghapus data')
+
+    except Exception as e:
+        print(e)

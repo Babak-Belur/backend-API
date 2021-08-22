@@ -8,8 +8,8 @@ class Target(db.Model):
     id_course = db.Column(db.BigInteger, db.ForeignKey(CourseSubject.id_course))
     g1 = db.Column(db.Integer, nullable=False)
     grade_target = db.Column(db.Integer, nullable=False)
-    target_time = db.Column(db.Integer, nullable=False)
-    achived = db.Column(db.Boolean, default=False, nullable=False)
+    target_time = db.Column(db.Date, nullable=False)
+    achived = db.Column(db.Boolean, default=False, server_default="False", nullable=False)
     
     def __repr__(self):
         return '<Target {}>'.format(self.name)

@@ -35,9 +35,14 @@ def target():
         return TargetController.save()
     
 
-@app.route('/target/<id>', methods=['GET'])
+@app.route('/target/<id>', methods=['GET','PUT','DELETE'])
 def targetDetail(id):
-    return TargetController.detailTarget(id)
+    if request.method == 'GET':
+        return TargetController.detailTarget(id)
+    elif request.method == 'PUT':
+        return TargetController.edit(id)
+    elif request.method == 'DELETE':
+        return TargetController.hapus(id)
 
 @app.route('/target/user/<id>', methods=['GET'])
 def targetUser(id):
@@ -71,6 +76,12 @@ def evaluation():
         return EvaluationController.save()
 
 
-@app.route('/evaluation/<id>', methods=['GET'])
+@app.route('/evaluation/<id>', methods=['GET','PUT','DELETE'])
 def evaluationUser(id):
-    return EvaluationController.detailEvaluation(id)
+    if request.method == 'GET':
+        return EvaluationController.detailEvaluation(id)
+    elif request.method == 'PUT':
+        return EvaluationController.edit(id)
+    elif request.method == 'DELETE':
+        return EvaluationController.hapus(id)
+    
