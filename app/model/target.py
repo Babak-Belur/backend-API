@@ -6,7 +6,8 @@ class Target(db.Model):
     id_target = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
     id_course = db.Column(db.BigInteger, db.ForeignKey(CourseSubject.id_course))
-    grade = db.Column(db.Integer, nullable=False)
+    g1 = db.Column(db.Integer, nullable=False)
+    grade_target = db.Column(db.Integer, nullable=False)
     target_time = db.Column(db.Integer, nullable=False)
     achived = db.Column(db.Boolean, default=False, nullable=False)
     

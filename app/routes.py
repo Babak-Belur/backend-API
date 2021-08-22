@@ -1,6 +1,6 @@
 from app import app
 from flask import request
-from app.controller import UserController, TargetController, CourseController, FactorController, StudyController, EvaluationController
+from app.controller import UserController, TargetController, CourseController, EvaluationController
 
 @app.route('/')
 def index():
@@ -43,33 +43,14 @@ def course():
     else:
         return CourseController.save()
 
-
-
-#factor
-@app.route('/factor', methods=['GET','POST'])
-def factor():
+@app.route('/course/<id>', methods=['GET', 'PUT', 'DELETE'])
+def course_subject(id):
     if request.method == 'GET':
-        return FactorController.index()
-    else:
-        return FactorController.save()
-
-@app.route('/factor/<id>', methods=['GET'])
-def factorUser(id):
-    return FactorController.detailFactor(id)
-
-
-#study
-@app.route('/study', methods=['GET','POST'])
-def study():
-    if request.method == 'GET':
-        return StudyController.index()
-    else:
-        return StudyController.save()
-    
-
-@app.route('/study/<id>', methods=['GET'])
-def studyUser(id):
-    return StudyController.detailStudy(id)
+        return CourseController.detailCourse(id)
+    elif request.method == 'PUT':
+        return CourseController.edit(id)
+    elif request.method == 'DELETE':
+        return CourseController.hapus(id)
 
 
 #evaluation

@@ -1,8 +1,8 @@
 """create database
 
-Revision ID: 0268c0825bbf
+Revision ID: 74fb8213fa09
 Revises: 
-Create Date: 2021-08-17 14:00:39.198123
+Create Date: 2021-08-22 12:02:38.400981
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0268c0825bbf'
+revision = '74fb8213fa09'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,56 +35,39 @@ def upgrade():
     op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
     op.create_table('detail_user',
     sa.Column('id_detail_user', sa.BigInteger(), autoincrement=True, nullable=False),
-    sa.Column('age', sa.BigInteger(), nullable=False),
-    sa.Column('genre', sa.Enum('Male', 'Female'), nullable=False),
-    sa.Column('internet', sa.Enum('Yes', 'No'), nullable=False),
-    sa.Column('fjob', sa.String(length=50), nullable=False),
-    sa.Column('mjob', sa.String(length=50), nullable=False),
-    sa.Column('pstatus', sa.Enum('Yes', 'No'), nullable=False),
+    sa.Column('age', sa.BigInteger(), nullable=True),
+    sa.Column('genre', sa.Enum('Male', 'Female'), nullable=True),
+    sa.Column('internet', sa.Enum('Yes', 'No'), nullable=True),
+    sa.Column('fjob', sa.String(length=50), nullable=True),
+    sa.Column('mjob', sa.String(length=50), nullable=True),
+    sa.Column('pstatus', sa.Enum('Yes', 'No'), nullable=True),
     sa.Column('id_user', sa.BigInteger(), nullable=True),
     sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
     sa.PrimaryKeyConstraint('id_detail_user')
     )
-    op.create_table('evaluation',
-    sa.Column('id_evaluation', sa.BigInteger(), autoincrement=True, nullable=False),
-    sa.Column('id_user', sa.BigInteger(), nullable=True),
-    sa.Column('grade', sa.Integer(), nullable=False),
-    sa.Column('id_course', sa.BigInteger(), nullable=True),
-    sa.ForeignKeyConstraint(['id_course'], ['course_subject.id_course'], ),
-    sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
-    sa.PrimaryKeyConstraint('id_evaluation')
-    )
-    op.create_table('factor',
-    sa.Column('id_factor', sa.BigInteger(), autoincrement=True, nullable=False),
-    sa.Column('id_user', sa.BigInteger(), nullable=True),
-    sa.Column('study_time', sa.Integer(), nullable=False),
-    sa.Column('g1', sa.Integer(), nullable=False),
-    sa.Column('freetime', sa.Integer(), nullable=False),
-    sa.Column('health', sa.Enum('1', '2', '3', '4', '5'), nullable=False),
-    sa.Column('extra_paid_course', sa.Enum('yes', 'no'), nullable=False),
-    sa.Column('take_higher_education', sa.Enum('yes', 'no'), nullable=False),
-    sa.Column('extracurricular', sa.Enum('yes', 'no'), nullable=False),
-    sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
-    sa.PrimaryKeyConstraint('id_factor')
-    )
-    op.create_table('study_report',
-    sa.Column('id_evaluation', sa.BigInteger(), autoincrement=True, nullable=False),
-    sa.Column('id_user', sa.BigInteger(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=False),
-    sa.Column('study_time', sa.Integer(), nullable=False),
-    sa.Column('id_course', sa.BigInteger(), nullable=True),
-    sa.ForeignKeyConstraint(['id_course'], ['course_subject.id_course'], ),
-    sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
-    sa.PrimaryKeyConstraint('id_evaluation')
-    )
     op.create_table('target',
-    sa.Column('id_evaluation', sa.BigInteger(), autoincrement=True, nullable=False),
+    sa.Column('id_target', sa.BigInteger(), autoincrement=True, nullable=False),
     sa.Column('id_user', sa.BigInteger(), nullable=True),
     sa.Column('id_course', sa.BigInteger(), nullable=True),
-    sa.Column('grade', sa.Integer(), nullable=False),
+    sa.Column('g1', sa.Integer(), nullable=False),
+    sa.Column('grade_target', sa.Integer(), nullable=False),
     sa.Column('target_time', sa.Integer(), nullable=False),
     sa.Column('achived', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['id_course'], ['course_subject.id_course'], ),
+    sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
+    sa.PrimaryKeyConstraint('id_target')
+    )
+    op.create_table('evaluation',
+    sa.Column('id_evaluation', sa.BigInteger(), autoincrement=True, nullable=False),
+    sa.Column('id_user', sa.BigInteger(), nullable=True),
+    sa.Column('date', sa.Date(), nullable=False),
+    sa.Column('grade', sa.Integer(), nullable=False),
+    sa.Column('study_time', sa.Integer(), nullable=False),
+    sa.Column('freetime', sa.Integer(), nullable=False),
+    sa.Column('id_course', sa.BigInteger(), nullable=True),
+    sa.Column('id_target', sa.BigInteger(), nullable=True),
+    sa.ForeignKeyConstraint(['id_course'], ['course_subject.id_course'], ),
+    sa.ForeignKeyConstraint(['id_target'], ['target.id_target'], ),
     sa.ForeignKeyConstraint(['id_user'], ['users.id_user'], ),
     sa.PrimaryKeyConstraint('id_evaluation')
     )
@@ -93,10 +76,8 @@ def upgrade():
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('target')
-    op.drop_table('study_report')
-    op.drop_table('factor')
     op.drop_table('evaluation')
+    op.drop_table('target')
     op.drop_table('detail_user')
     op.drop_index(op.f('ix_users_username'), table_name='users')
     op.drop_table('users')

@@ -9,7 +9,7 @@ class DetailUser(db.Model):
     fjob = db.Column(db.String(50), nullable=True)
     mjob = db.Column(db.String(50), nullable=True)
     pstatus = db.Column(db.Enum('Yes', 'No'), nullable=True)
-    id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user))
+    id_user = db.Column(db.BigInteger, db.ForeignKey(Users.id_user, ondelete='CASCADE', onupdate='CASCADE'))
 
     def __repr__(self):
         return '<DetailUser {}>'.format(self.name)
