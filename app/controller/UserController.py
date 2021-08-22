@@ -96,10 +96,80 @@ def save():
         role = request.form.get('role')
 
         users = Users(username=username, password=password, name=name, role=role)
+        #detail = Users.query.filter_by(username=username).first()
+        detailUser = DetailUser(id_user=users.id_user)
         
         db.session.add(users)
+        db.session.add(detailUser)
         db.session.commit()
 
         return response.success('', 'Success adding Users')
+    except Exception as e:
+        print(e)
+
+#edit course
+def edit(id):
+    try:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        name = request.form.get('name')
+        age = request.form.get('age')
+        genre = request.form.get('genre')
+        internet = request.form.get('internet')
+        fjob = request.form.get('fjob')
+        mjob = request.form.get('mjob')
+        pstatus = request.form.get('pstatus')
+
+        data = [
+            {
+                'username': username,
+                'password': password,
+                'name': name,
+                'age': age,
+                'genre': genre,
+                'internet': internet,
+                'fjob': fjob,
+                'mjob': mjob,
+                'pstatus': pstatus
+            }
+        ]
+
+        user = Users.query.filter_by(id_user=id).first()
+        datail = DetailUser.query.filter_by(id_detail_user=id).first()
+
+        user.username = username
+        user.password = password
+        user.name = name
+        datail.age = age
+        datail.genre = genre
+        datail.internet = internet
+        datail.fjob = fjob
+        datail.mjob = mjob
+        datail.pstatus = pstatus
+        datail.id_user = id
+
+        #db.session.add(course)
+        db.session.commit()
+
+        return response.success(data, 'Sukses update data')
+    except Exception as e:
+        print(e)
+
+
+#delete user & detail user
+def hapus(id):
+    try:
+        user = Users.query.filter_by(id_user=id).first()
+        detail = DetailUser.query.filter_by(id_user=id).first()
+
+        if not course:
+            return response.badRequest([], 'Data Course kosong')
+
+        db.session.delete(user)
+        db.session.delete(detail)
+        db.session.commit()
+
+        return response.success('', 'Berhasil Menghapus data')
+
     except Exception as e:
         print(e)

@@ -15,9 +15,14 @@ def users():
     else:
         return UserController.save()
 
-@app.route('/users/<id>', methods=['GET'])
+@app.route('/users/<id>', methods=['GET','PUT','DELETE'])
 def detailUser(id):
-    return UserController.detail(id)
+    if request.method == 'GET':
+        return UserController.detail(id)
+    elif request.method == 'PUT':
+        return UserController.edit(id)
+    elif request.method == 'DELETE':
+        return UserController.hapus(id)
 
 
 

@@ -51,7 +51,7 @@ def singleObject(data):
 # Get course by id
 def detailCourse(id):
     try:
-        course = CourseSubject.query.get(1)
+        course = CourseSubject.query.get(id)
         data = singleObjectCourse(course)
         return response.success(data, "success")
     except Exception as e:
@@ -96,11 +96,18 @@ def save():
         course_name = request.form.get('course_name')
         description = request.form.get('description')
 
+        data = [
+            {
+                'course_name': course_name,
+                'description': description
+            }
+        ]
+
         courses = CourseSubject(course_name=course_name, description=description)
         db.session.add(courses)
         db.session.commit()
 
-        return response.success('', 'Success adding Course Subject')
+        return response.success(data, 'Success adding Course Subject')
     except Exception as e:
         print(e)
 
@@ -120,9 +127,10 @@ def edit(id):
 
         course = CourseSubject.query.filter_by(id_course=id).first()
 
-        course.course_name
-        course.description
+        course.course_name = course_name
+        course.description = description
 
+        #db.session.add(course)
         db.session.commit()
 
         return response.success(data, 'Sukses update data')
@@ -133,6 +141,8 @@ def edit(id):
 def hapus(id):
     try:
         course = CourseSubject.query.filter_by(id_course=id).first()
+
+
         if not course:
             return response.badRequest([], 'Data Course kosong')
 
