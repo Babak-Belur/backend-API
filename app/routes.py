@@ -36,8 +36,12 @@ def target():
     
 
 @app.route('/target/<id>', methods=['GET'])
-def targetUser(id):
+def targetDetail(id):
     return TargetController.detailTarget(id)
+
+@app.route('/target/user/<id>', methods=['GET'])
+def targetUser(id):
+    return TargetController.detailUserTarget(id)
 
 
 #course

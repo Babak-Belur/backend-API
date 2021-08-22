@@ -4,15 +4,14 @@ from app.model.courseSubject import CourseSubject
 
 from app import response, app, db
 from flask import request
+from sqlalchemy import text
 
 # Get all target
 def index():
     try:
-        target = Target.query.all()
-        course_subject = CourseSubject.query.filter(CourseSubject.id_course == Target.id_course)
-        
-        #courseData = courseFormat(course)
-
+        target = db.engine.execute(
+            text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course inner join users u on u.id_user = t.id_user")
+        )
         data = formatarray(target)
         return response.success(data, "success")
     except Exception as e:
@@ -32,48 +31,44 @@ def singleObject(data):
     data = {
         'id_target': data.id_target,
         'id_user': data.id_user,
-        'id_course': data.id_course,
-        'grade': data.grade,
+        'g1': data.g1,
+        'grade_target': data.grade_target,
         'target_time': data.target_time,
-        'achived': data.achived
+        'achived': data.achived,
+        'course':[
+            {
+                'id_course': data.id_course,
+                'course_name': data.course_name,
+                'description': data.description
+            }
+        ],
+        'user':[
+            {
+                'id_user': data.id_user,
+                'name': data.name,
+                'username': data.username
+            }
+        ]
     }
 
     return data
 
-#def singleCourse(course):
-#    data = {
-#        'id_course': course.id_course,
-#        'course_name': course.course_name,
-#        'description': course.description,
-#    }
-
-#    return data
-
-#def formatCourse(data):
-#    array = []
-#    for i in data:
-#        array.append(singleCourse(i))
-#    return array
-
-
 
 # get target by user id
-def detailTarget(id):
+def detailUserTarget(id):
     try:
-        user = Users.query.filter_by(id_user=id).first()
-        target = Target.query.filter(Target.id_user == id)
-        #course_subject = CourseSubject.query.filter(CourseSubject.id_course == Target.id_course)
+        users = Users.query.filter_by(id_user=id).first()
+        target_id = id
+        target = db.engine.execute(
+            text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course where id_user = :user").params(user=id)
+        )
 
         if not target:
             return response.badRequest([], 'Tidak ada datanya')
-
-        #dataCourse = formatCourse(course_subject)
-
-        #dataSingleTarget = singleDetailCourse(dataCourse, target)
         
         dataTarget = formatTarget(target)
 
-        data = singleDetailTarget(user, dataTarget)
+        data = singleDetailTarget(users, dataTarget)
 
         return response.success(data, "success")
 
@@ -81,12 +76,12 @@ def detailTarget(id):
         print(e)
 
 
-def singleDetailTarget(user, target):
+def singleDetailTarget(users, target):
     data = {
-        'id_user': user.id_user,
-        'username': user.username,
-        'name': user.name,
-        'role': user.role,
+        'id_user': users.id_user,
+        'username': users.username,
+        'name': users.name,
+        'role': users.role,
         'target': target
     }
 
@@ -97,9 +92,17 @@ def singleTarget(target):
     data = {
         'id_target': target.id_target,
         'id_course': target.id_course,
-        'grade': target.grade,
+        'g1': target.g1,
+        'grade_target': target.grade_target,
         'target_time': target.target_time,
-        'achived': target.achived
+        'achived': target.achived,
+        'course': [
+            {
+                'id_course': target.id_course,
+                'course_name': target.course_name,
+                'description': target.description
+            }
+        ]
     }
 
     return data
@@ -110,34 +113,47 @@ def formatTarget(data):
         array.append(singleTarget(i))
     return array
 
-##########################################################
-#def singleDetailCourse(target, course):
-#    data = {
-#        'id_target': target.id_target,
-#        'grade': target.grade,
-#        'target_time': target.target_time,
-#        'achived': target.achived,
-#        'course': course
-#    }
 
-#    return data
+#get target id
+def detailTarget(id):
+    try:
+        target = db.engine.execute(
+            text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course inner join users u on u.id_user = t.id_user where id_target = :target").params(target=id)
+        )
+        data = formatarray(target)
+        return response.success(data, "success")
+    except Exception as e:
+        print(e)
 
 
-#def singleCourse(course):
-#    data = {
-#        'id_course': course.id_course,
-#        'course_name': course.course_name,
-#        'description': course.description,
-#    }
 
-#    return data
+def singleObjectTarget(data):
+    data : [
+        {
+            'id_target': data.id_target,
+            'id_user': data.id_user,
+            'g1': data.g1,
+            'grade_target': data.grade_target,
+            'target_time': data.target_time,
+            'achived': data.achived,
+            'course':[
+                {
+                    'id_course': data.id_course,
+                    'course_name': data.course_name,
+                    'description': data.description
+                }
+            ],
+            'user':[
+                {
+                    'id_user': data.id_user,
+                    'name': data.name,
+                    'username': data.username
+                }
+            ]
+        }
+    ]
 
-#def formatCourse(data):
-#    array = []
-#    for i in data:
-#        array.append(singleCourse(i))
-#    return array
-
+    return data
 
 #add target user
 def save():

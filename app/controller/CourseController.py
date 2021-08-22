@@ -71,13 +71,13 @@ def detailCourse(id):
 #        print(e)
 
 
-def formatArray(datas):
-    array = []
+#def formatArray(datas):
+#    array = []
 
-    for i in datas:
-        array.append(singleObjectCourse(i))
+#    for i in datas:
+#        array.append(singleObjectCourse(i))
 
-    return array
+#    return array
 
 
 def singleObjectCourse(data):
