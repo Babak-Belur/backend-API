@@ -42,7 +42,7 @@ def detailCourse(id):
     try:
         course = CourseSubject.query.get(id)
 
-        if not courses:
+        if not course:
             return response.badRequest([], 'Data Course kosong, Id tidak ditemukan')
 
         data = singleObjectCourse(course)

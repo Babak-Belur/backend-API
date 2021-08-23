@@ -10,7 +10,6 @@ class Evaluation(db.Model):
     grade = db.Column(db.Integer, nullable=False)
     study_time = db.Column(db.Enum('1', '2', '3', '4'), nullable=False)
     freetime = db.Column(db.Enum('1', '2', '3', '4', '5'), nullable=False)
-    id_course = db.Column(db.BigInteger, db.ForeignKey(CourseSubject.id_course, ondelete='CASCADE', onupdate='CASCADE'))
     id_target = db.Column(db.BigInteger, db.ForeignKey(Target.id_target, ondelete='CASCADE', onupdate='CASCADE'))
     
 

@@ -35,7 +35,6 @@ def formatarray(datas):
 def singleObject(data):
     data = {
         'id_target': data.id_target,
-        'id_user': data.id_user,
         'g1': data.g1,
         'grade_target': data.grade_target,
         'target_time': data.target_time,
@@ -125,42 +124,48 @@ def detailTarget(id):
         target = db.engine.execute(
             text("SELECT * FROM target t inner join course_subject c on t.id_course = c.id_course inner join users u on u.id_user = t.id_user where id_target = :target").params(target=id)
         )
-        data = formatarray(target)
 
         if not target:
             return response.badRequest([], 'Data Target kosong, Id tidak ditemukan')
+
+        data = formatArray(target)
 
         return response.success(data, "success")
     except Exception as e:
         print(e)
 
 
+def formatArray(datas):
+    array = []
+
+    for i in datas:
+        array.append(singleObjectTarget(i))
+
+    return array
+
 
 def singleObjectTarget(data):
-    data : [
-        {
-            'id_target': data.id_target,
-            'id_user': data.id_user,
-            'g1': data.g1,
-            'grade_target': data.grade_target,
-            'target_time': data.target_time,
-            'achived': data.achived,
-            'course':[
-                {
-                    'id_course': data.id_course,
-                    'course_name': data.course_name,
-                    'description': data.description
-                }
-            ],
-            'user':[
-                {
-                    'id_user': data.id_user,
-                    'name': data.name,
-                    'username': data.username
-                }
-            ]
-        }
-    ]
+    data = {
+        'id_target': data.id_target,
+        'g1': data.g1,
+        'grade_target': data.grade_target,
+        'target_time': data.target_time,
+        'achived': data.achived,
+        'course':[
+            {
+                'id_course': data.id_course,
+                'course_name': data.course_name,
+                'description': data.description
+            }
+        ],
+        'user':[
+            {
+                'id_user': data.id_user,
+                'name': data.name,
+                'username': data.username
+            }
+        ]
+    }
 
     return data
 

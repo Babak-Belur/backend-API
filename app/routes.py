@@ -82,7 +82,7 @@ def evaluation():
 
 
 @app.route('/evaluation/<id>', methods=['GET','PUT','DELETE'])
-def evaluationUser(id):
+def evaluationDetail(id):
     if request.method == 'GET':
         return EvaluationController.detailEvaluation(id)
     elif request.method == 'PUT':
@@ -90,3 +90,7 @@ def evaluationUser(id):
     elif request.method == 'DELETE':
         return EvaluationController.hapus(id)
     
+
+@app.route('/evaluation/user/<id>', methods=['GET'])
+def evaluationUser(id):
+    return EvaluationController.detailUserEvaluation(id)
