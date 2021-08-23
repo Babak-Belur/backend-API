@@ -1,8 +1,12 @@
 from app.model.users import Users
 from app.model.detailUser import DetailUser
+import datetime
+import uuid
 
 from app import response, app, db
 from flask import request
+import datetime
+from flask_jwt_extended import *
 
 
 # Get all users
@@ -179,7 +183,7 @@ def hapus(id):
         user = Users.query.filter_by(id_user=id).first()
         detail = DetailUser.query.filter_by(id_user=id).first()
 
-        if not course:
+        if not user:
             return response.badRequest([], 'Data User kosong, Id tidak ditemukan')
 
         db.session.delete(user)
@@ -188,5 +192,44 @@ def hapus(id):
 
         return response.success('', 'Berhasil Menghapus data')
 
+    except Exception as e:
+        print(e)
+
+
+
+# login function
+def login():
+    try:
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user = Users.query.filter_by(username=username).first()
+
+        if not user:
+            return response.badRequest([], 'Data User kosong, Username tidak ditemukan')
+
+        #if not user.checkPassword(password):
+        #    return response.badRequest([], 'Data User kosong, Kombinasi password salah')
+
+        data = [
+            {
+                'username': user.username,
+                'id_user': user.id_user,
+                'name': user.name,
+                'role': user.role,
+            }
+        ]
+
+        expires = datetime.timedelta(days=3)
+        expires_refresh = datetime.timedelta(days=3)
+
+        access_token = create_access_token(data, fresh=True, expires_delta=expires)
+        refresh_token = create_refresh_token(data, expires_delta=expires_refresh)
+
+        return response.success({
+            'data': data,
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+        }, 'sukses login')
     except Exception as e:
         print(e)

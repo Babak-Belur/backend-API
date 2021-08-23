@@ -3,3 +3,5 @@ python-dotenv
 flask-sqlalchemy
 flask-migrate
 pymysql
+werkzeug
+flask-jwt-extended

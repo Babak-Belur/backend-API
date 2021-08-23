@@ -25,6 +25,11 @@ def detailUser(id):
         return UserController.hapus(id)
 
 
+#login
+@app.route('/login', methods=['POST'])
+def login():
+    return UserController.login()
+
 
 #target
 @app.route('/target', methods=['GET','POST'])
