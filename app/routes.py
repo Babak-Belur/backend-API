@@ -1,10 +1,22 @@
-from app import app
+from app import app, response
 from flask import request
 from app.controller import UserController, TargetController, CourseController, EvaluationController
+from flask import request
+from flask import jsonify
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 @app.route('/')
 def index():
     return 'Hello Flask App'
+
+
+# testing jwt token
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return response.success(current_user, 'sukses')
 
 
 #users

@@ -98,7 +98,7 @@ def edit(id):
 
         course = CourseSubject.query.filter_by(id_course=id).first()
 
-        if not courses:
+        if not course:
             return response.badRequest([], 'Data Course kosong, Id tidak ditemukan')
 
         course.course_name = course_name

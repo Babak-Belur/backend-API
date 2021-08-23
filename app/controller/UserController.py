@@ -13,7 +13,7 @@ def index():
     try:
         users = Users.query.all()
 
-        if not course:
+        if not users:
             return response.badRequest([], 'Data User kosong, Id tidak ditemukan')
 
         data = formatarray(users)
@@ -140,7 +140,6 @@ def edit(id):
         data = [
             {
                 'username': username,
-                'password': password,
                 'name': name,
                 'age': age,
                 'genre': genre,
