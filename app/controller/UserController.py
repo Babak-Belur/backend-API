@@ -1,6 +1,5 @@
 from app.model.users import Users
 from app.model.detailUser import DetailUser
-import datetime
 import uuid
 
 from app import response, app, db
@@ -208,8 +207,8 @@ def login():
         if not user:
             return response.badRequest([], 'Data User kosong, Username tidak ditemukan')
 
-        #if not user.checkPassword(password):
-        #    return response.badRequest([], 'Data User kosong, Kombinasi password salah')
+        if not Users.checkPassword(password):
+            return response.badRequest([], 'Data User kosong, Kombinasi password salah')
 
         data = [
             {
