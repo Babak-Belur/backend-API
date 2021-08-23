@@ -112,6 +112,7 @@ def save():
         #detail = Users.query.filter_by(username=username).first()
         detailUser = DetailUser(id_user=users.id_user)
         
+        users.setPassword(password)
         db.session.add(users)
         db.session.add(detailUser)
         db.session.commit()
