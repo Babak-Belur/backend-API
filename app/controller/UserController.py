@@ -180,7 +180,7 @@ def edit(id):
 def hapus(id):
     try:
         user = Users.query.filter_by(id_user=id).first()
-        detail = DetailUser.query.filter_by(id_user=id).first()
+        detail = DetailUser.query.filter_by(id_detail_user=id).first()
 
         if not user:
             return response.badRequest([], 'Data User kosong, Id tidak ditemukan')
