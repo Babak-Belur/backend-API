@@ -206,12 +206,23 @@ def save():
         freetime = request.form.get('freetime')
         id_target = request.form.get('id_target')
 
+        data = [
+            {
+                'id_user': id_user,
+                'date': date,
+                'grade': grade,
+                'study_time': study_time,
+                'freetime': freetime,
+                'id_target': id_target,
+            }
+        ]
+
         evaluations = Evaluation(id_user=id_user, date=date, grade=grade, study_time=study_time, freetime=freetime, id_target=id_target)
         
         db.session.add(evaluations)
         db.session.commit()
 
-        return response.success('', 'Success adding User Evaluation')
+        return response.success(data, 'Success adding User Evaluation')
     except Exception as e:
         print(e)
 

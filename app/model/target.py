@@ -9,7 +9,7 @@ class Target(db.Model):
     g1 = db.Column(db.Integer, nullable=False)
     grade_target = db.Column(db.Integer, nullable=False)
     target_time = db.Column(db.Date, nullable=False)
-    achived = db.Column(db.Boolean, default=False, server_default="False", nullable=False)
+    achived = db.Column(db.Integer, nullable=False)
     
     def __repr__(self):
         return '<Target {}>'.format(self.name)

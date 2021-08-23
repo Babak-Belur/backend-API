@@ -174,17 +174,28 @@ def save():
     try:
         id_user = request.form.get('id_user')
         id_course = request.form.get('id_course')
-        g1 = request.form.get('g1', type=bool, default=False)
+        g1 = request.form.get('g1')
         grade_target = request.form.get('grade_target')
         target_time = request.form.get('target_time')
         achived = request.form.get('achived')
+
+        data = [
+            {
+                'id_user': id_user,
+                'id_course': id_course,
+                'g1': g1,
+                'grade_target': grade_target,
+                'target_time': target_time,
+                'achived': achived,
+            }
+        ]
 
         targets = Target(id_user=id_user, id_course=id_course, g1=g1, grade_target=grade_target, target_time=target_time, achived=achived)
         
         db.session.add(targets)
         db.session.commit()
 
-        return response.success('', 'Success adding Target Users')
+        return response.success(data, 'Success adding Target Users')
     except Exception as e:
         print(e)
 
