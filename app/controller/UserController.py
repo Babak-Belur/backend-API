@@ -155,6 +155,8 @@ def edit(id):
 
         if not user:
             return response.badRequest([], 'Data user kosong, Id tidak ditemukan')
+        
+        
 
         user.username = username
         user.password = password
@@ -166,8 +168,9 @@ def edit(id):
         datail.mjob = mjob
         datail.pstatus = pstatus
         datail.id_user = id
-
-        #db.session.add(course)
+        
+        user.setPassword(password)
+        db.session.add(user)
         db.session.commit()
 
         return response.success(data, 'Sukses update data')
@@ -206,7 +209,7 @@ def login():
         if not user:
             return response.badRequest([], 'Data User kosong, Username tidak ditemukan')
 
-        if not Users.checkPassword(password):
+        if not user.checkPassword(password):
             return response.badRequest([], 'Data User kosong, Kombinasi password salah')
 
         data = [
