@@ -1,6 +1,6 @@
 from app import app, response
 from flask import request
-from app.controller import UserController, TargetController, CourseController, EvaluationController
+from app.controller import UserController, TargetController, CourseController, EvaluationController, ForecastController
 from flask import request
 from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
@@ -119,7 +119,7 @@ def evaluationUser(id):
 
 
 # get the prediction from model
-#@app.route('/predict/<id>', methods=['GET'])
+@app.route('/predict/<id>', methods=['GET'])
 #@jwt_required()
-#def predict(id):
-#    return ForecastController.prediction(id)
+def predict(id):
+    return ForecastController.prediction(id)
